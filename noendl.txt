@@ -1,0 +1,1 @@
+ceci est un fichier texte sans fin de ligne, juste un EOF, j'aimerai avoir le pouvoir d'ecrire de la poesie mais les mots m'echappent, que faire quand on passe plus de 7h par jours assis sur une chaise ?
