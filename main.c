@@ -3,35 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 16:52:09 by anloisea          #+#    #+#             */
-/*   Updated: 2022/04/20 19:20:27 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/04/22 16:51:26 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <fcntl.h>
+# include <stdio.h>
+# include <sys/types.h>
+# include <sys/uio.h>
 
 int main()
 {
-    int fd = open("./tripouille/files/big_line_no_nl", O_RDONLY);
+    int fd = open("note.txt", O_RDONLY);
     if (fd == -1)
     {
         puts("Failed to open()");
         return (1);
 	}
-
-	// printf("output = %s", get_next_line(fd));
-	// printf("output = %s", get_next_line(fd));
-	// printf("output = %s", get_next_line(fd));
  	char	*get;
 	get = get_next_line(fd);
-	while (get)
+	printf("output = %s", get);
+	// printf("output = %s", get_next_line(fd));
+	// printf("output = %s", get_next_line(fd));
+
+/* 	while (get)
 	{
 		printf("output = %s", get);
+		free(get);
 		get = get_next_line(fd);
-	}
+	} */
+	free(get);
     close(fd);
     return (0);
 }
