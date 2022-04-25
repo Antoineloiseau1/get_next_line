@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 16:50:06 by anloisea          #+#    #+#             */
-/*   Updated: 2022/04/23 19:19:48 by antoine          ###   ########.fr       */
+/*   Updated: 2022/04/23 20:39:44 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
 
 char	*ft_strjoin(char *buf, char *save)
 {
@@ -23,10 +24,7 @@ char	*ft_strjoin(char *buf, char *save)
 		return (NULL);
 	stash = malloc((ft_strlen(buf) + ft_strlen(save) + 1) * sizeof(*stash));
 	if (!stash)
-	{
-		free(save);
 		return (NULL);
-	}
 	i = 0;
 	while (save[i])
 	{
@@ -52,11 +50,6 @@ char	*ft_clean_save(char *save)
 
 	i = 0;
 	j = 0;
-	if (!save[i])
-	{
-		free(save);
-		return (NULL);
-	}
 	while (save[i] != '\n' && save[i])
 		i++;
 	if (save[i] == '\n')
@@ -131,15 +124,17 @@ char	*ft_read_file(int fd, char *save)
 
 char	*get_next_line(int fd)
 {
-	static char	*save;
+	static char	*save[1023];
 	char		*line;
-	
-	if (fd < 0 || BUFFER_SIZE <= 0)
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
 		return (NULL);
-	save = ft_read_file(fd, save);
-	if (!save)
+	else if (fd > 1023)
 		return (NULL);
-	line = ft_get_line(save);
-	save = ft_clean_save(save);
+	save[fd] = ft_read_file(fd, save[fd]);
+	if (!save[fd])
+		return (NULL);
+	line = ft_get_line(save[fd]);
+	save[fd] = ft_clean_save(save[fd]);
 	return (line);
 }
